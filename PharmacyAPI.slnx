@@ -1,0 +1,20 @@
+<Solution>
+  <Folder Name="/src/">
+    <Project Path="src/PharmacyAPI.Application.Contracts/PharmacyAPI.Application.Contracts.csproj" />
+    <Project Path="src/PharmacyAPI.Application/PharmacyAPI.Application.csproj" />
+    <Project Path="src/PharmacyAPI.DbMigrator/PharmacyAPI.DbMigrator.csproj" />
+    <Project Path="src/PharmacyAPI.Domain.Shared/PharmacyAPI.Domain.Shared.csproj" />
+    <Project Path="src/PharmacyAPI.Domain/PharmacyAPI.Domain.csproj" />
+    <Project Path="src/PharmacyAPI.EntityFrameworkCore/PharmacyAPI.EntityFrameworkCore.csproj" />
+    <Project Path="src/PharmacyAPI.HttpApi.Client/PharmacyAPI.HttpApi.Client.csproj" />
+    <Project Path="src/PharmacyAPI.HttpApi.Host/PharmacyAPI.HttpApi.Host.csproj" />
+    <Project Path="src/PharmacyAPI.HttpApi/PharmacyAPI.HttpApi.csproj" />
+  </Folder>
+  <Folder Name="/test/">
+    <Project Path="test/PharmacyAPI.Application.Tests/PharmacyAPI.Application.Tests.csproj" />
+    <Project Path="test/PharmacyAPI.Domain.Tests/PharmacyAPI.Domain.Tests.csproj" />
+    <Project Path="test/PharmacyAPI.EntityFrameworkCore.Tests/PharmacyAPI.EntityFrameworkCore.Tests.csproj" />
+    <Project Path="test/PharmacyAPI.HttpApi.Client.ConsoleTestApp/PharmacyAPI.HttpApi.Client.ConsoleTestApp.csproj" />
+    <Project Path="test/PharmacyAPI.TestBase/PharmacyAPI.TestBase.csproj" />
+  </Folder>
+</Solution>
