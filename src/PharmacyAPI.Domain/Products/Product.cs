@@ -8,20 +8,6 @@ using Volo.Abp.Domain.Entities.Auditing;
 
 namespace PharmacyAPI.Products
 {
-    public enum ProductBadge
-    {
-        Discount,
-        Cashback,
-        New,
-        Bestseller
-    }
-    public enum ProductGender
-    {
-        Unisex,
-        Kadin,
-        Erkek
-    }
-
     public class Product : FullAuditedAggregateRoot<Guid>
     {
         public string ProductName { get; set; }

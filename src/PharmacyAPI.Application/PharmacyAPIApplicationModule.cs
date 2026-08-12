@@ -1,5 +1,5 @@
 ﻿using Volo.Abp.Account;
-using Volo.Abp.Mapperly;
+using Volo.Abp.AutoMapper;
 using Volo.Abp.FeatureManagement;
 using Volo.Abp.Identity;
 using Volo.Abp.Modularity;
@@ -24,6 +24,9 @@ public class PharmacyAPIApplicationModule : AbpModule
 {
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
-        context.Services.AddMapperlyObjectMapper<PharmacyAPIApplicationModule>();
+        Configure<AbpAutoMapperOptions>(options =>
+        {
+            options.AddMaps<PharmacyAPIApplicationModule>();
+        });
     }
 }

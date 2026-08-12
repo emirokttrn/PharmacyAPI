@@ -1,12 +1,20 @@
+using System.Collections.Generic;
+using System.Linq;
+using AutoMapper;
+using PharmacyAPI.HealtTopics;
+using PharmacyAPI.ProductDtos;
+using PharmacyAPI.Products;
 using Riok.Mapperly.Abstractions;
 using Volo.Abp.Mapperly;
 
 namespace PharmacyAPI;
 
-[Mapper]
-public partial class PharmacyAPIApplicationMappers
-{
-    /* You can configure your Mapperly mapping configuration here.
-     * Alternatively, you can split your mapping configurations
-     * into multiple mapper classes for a better organization. */
-}
+ public class PharmacyAPIApplicationAutoMapperProfile : Profile
+    {
+        public PharmacyAPIApplicationAutoMapperProfile()
+        {
+            CreateMap<Product, ProductDto>()
+                .ForMember(dest => dest.HealthTopics,
+                    opt => opt.MapFrom(src => src.healthTopics.Select(h => h.Topic).ToList()));
+        }
+    }
