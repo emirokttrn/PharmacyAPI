@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
 using Volo.Abp.Application.Services;
-using PharmacyAPI.IProductServices;
 using PharmacyAPI.ProductDtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Domain.Repositories;
@@ -12,18 +11,23 @@ using Volo.Abp;
 using PharmacyAPI.HealtTopics;
 using System.Linq.Dynamic.Core;
 using Volo.Abp.Guids;
+using PharmacyAPI.IServices.Product;
+using PharmacyAPI.IRepositories;
+using PharmacyAPI.DomainServices;
 
 namespace PharmacyAPI.ProductsService
 {
     public class ProductService : ApplicationService, IProductAppService
     {
 
-        private readonly IRepository<Product, Guid> _repository;
+        private readonly IProductRepository _repository;
+        private readonly ProductManager _productManager;
 
 
-        public ProductService(IRepository<Product, Guid> repository)
+        public ProductService(IProductRepository repository,ProductManager productManager)
         {
             _repository = repository;
+           _productManager= productManager;
 
         }
         public Task ChangeManyStockStatus(List<Guid> id, bool inStoock)
@@ -33,11 +37,7 @@ namespace PharmacyAPI.ProductsService
 
         public async Task<ProductDto> CreateAsync(CreateProductDto request)
         {
-            var newProduct = new Product(GuidGenerator.Create(),
-            request.ProductName,
-            request.BrandId,
-            request.CategoryId,
-            request.Price);//zorunlu doldurma kismi 
+            var newProduct = await _productManager.CreateAsync(request.ProductName, request.BrandId, request.CategoryId,request.Price);
 
             newProduct.SetDiscountedPrice(request.DiscountedPrice);
             newProduct.SetCountry(request.Country);

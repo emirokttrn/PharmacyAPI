@@ -6,7 +6,7 @@ using PharmacyAPI.ProductDtos;
 using Volo.Abp.Application.Dtos;
 using Volo.Abp.Application.Services;
 
-namespace PharmacyAPI.IProductServices
+namespace PharmacyAPI.IServices.Product
 {
  public interface IProductAppService : IApplicationService
     {

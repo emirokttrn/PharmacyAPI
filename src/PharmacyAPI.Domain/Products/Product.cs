@@ -2,6 +2,8 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Threading.Tasks;
+using PharmacyAPI.Brands;
+using PharmacyAPI.Categories;
 using PharmacyAPI.HealtTopics;
 using Volo.Abp;
 using Volo.Abp.Domain.Entities.Auditing;
@@ -23,7 +25,10 @@ namespace PharmacyAPI.Products
 
 
         public Guid BrandId { get; set; }
+        public Brand? brand {get;set;
+        }
         public Guid CategoryId { get; set; }
+        public Category? category {get;set;}
 
         public string ActiveIngredient { get; set; }
         public string Description { get; set; }
@@ -45,10 +50,10 @@ namespace PharmacyAPI.Products
 
         public Product(Guid id, string name, Guid brandId, Guid categoryId, decimal price) : base(id)
         {
-            ProductName = name;
+            SetName(name);
             BrandId = brandId;
             CategoryId = categoryId;
-            Price = price;
+            SetPrice(price);
         }
 
 

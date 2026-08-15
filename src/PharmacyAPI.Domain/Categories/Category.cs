@@ -27,7 +27,7 @@ namespace PharmacyAPI.Categories
 
         public Category(Guid id, string name, Guid? parentId=null): base(id)
         {
-            CategoryName=name;
+            SetCategoryName(name);
             ParentId=parentId;
         }
         public virtual void SetCategoryName(string name)
