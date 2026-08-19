@@ -19,7 +19,7 @@ namespace PharmacyAPI.Brands
         }
         public virtual async Task<Brand?> FindByNameAsync(string name)
         {
-            var dbSet = await GetDbSetAsync();
+            var dbSet = await GetDbSetAsync(); //abp'nin methodu bu dbcontexten aliyor bunu
             return await dbSet.FirstOrDefaultAsync(b => b.BrandName == name);
         }
 

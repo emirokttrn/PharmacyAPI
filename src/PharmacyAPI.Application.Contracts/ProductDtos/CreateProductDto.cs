@@ -8,7 +8,7 @@ using PharmacyAPI;
 
 namespace PharmacyAPI.ProductDtos
 {
-    public class CreateProductDto : FullAuditedEntityDto<Guid>
+    public class CreateProductDto
     {
         [Required]
         [StringLength(maximumLength: 128, MinimumLength = 2)]

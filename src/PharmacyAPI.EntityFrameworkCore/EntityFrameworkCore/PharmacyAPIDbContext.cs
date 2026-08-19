@@ -45,9 +45,9 @@ public class PharmacyAPIDbContext :
 
     //Identity
     public DbSet<Product> Products { get; set; }
-public DbSet<Category> Categories { get; set; }
-public DbSet<Brand> Brands { get; set; }
-public DbSet<ProductHealthTopic> ProductHealthTopics { get; set; }
+    public DbSet<Category> Categories { get; set; }
+    public DbSet<Brand> Brands { get; set; }
+    public DbSet<ProductHealthTopic> ProductHealthTopics { get; set; }
     public DbSet<IdentityUser> Users { get; set; }
     public DbSet<IdentityRole> Roles { get; set; }
     public DbSet<IdentityClaimType> ClaimTypes { get; set; }
@@ -92,44 +92,44 @@ public DbSet<ProductHealthTopic> ProductHealthTopics { get; set; }
         //    //...
         //});
 
-builder.Entity<Product>(b =>
-{
-    b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Products", PharmacyAPIConsts.DbSchema);
-    b.ConfigureByConvention();
+        builder.Entity<Product>(b =>
+        {
+            b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Products", PharmacyAPIConsts.DbSchema);
+            b.ConfigureByConvention();
 
-    b.Property(x => x.ProductName).IsRequired().HasMaxLength(Product.ProductNameMaxLength);
-    b.Property(x => x.Price).HasColumnType("decimal(18,2)");
-    b.Property(x => x.DiscountedPrice).HasColumnType("decimal(18,2)");
+            b.Property(x => x.ProductName).IsRequired().HasMaxLength(Product.ProductNameMaxLength);
+            b.Property(x => x.Price).HasColumnType("decimal(18,2)");
+            b.Property(x => x.DiscountedPrice).HasColumnType("decimal(18,2)");
 
-    b.HasOne<Brand>().WithMany().HasForeignKey(x => x.BrandId).IsRequired();
-    b.HasOne<Category>().WithMany().HasForeignKey(x => x.CategoryId).IsRequired();
+            b.HasOne(x => x.Brand).WithMany().HasForeignKey(x => x.BrandId).IsRequired();
+            b.HasOne(x => x.Category).WithMany().HasForeignKey(x => x.CategoryId).IsRequired();
 
-    b.HasMany(x => x.healthTopics).WithOne().HasForeignKey(x => x.ProductId);
-});
+            b.HasMany(x => x.healthTopics).WithOne().HasForeignKey(x => x.ProductId);
+        });
 
-builder.Entity<Category>(b =>
-{
-    b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Categories", PharmacyAPIConsts.DbSchema);
-    b.ConfigureByConvention();
+        builder.Entity<Category>(b =>
+        {
+            b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Categories", PharmacyAPIConsts.DbSchema);
+            b.ConfigureByConvention();
 
-    b.HasOne(x => x.Parent)
-     .WithMany(x => x.Childeren)
-     .HasForeignKey(x => x.ParentId)
-     .OnDelete(DeleteBehavior.Restrict);
-});
+            b.HasOne(x => x.Parent)
+             .WithMany(x => x.Childeren)
+             .HasForeignKey(x => x.ParentId)
+             .OnDelete(DeleteBehavior.Restrict);
+        });
 
-builder.Entity<Brand>(b =>
-{
-    b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Brands", PharmacyAPIConsts.DbSchema);
-    b.ConfigureByConvention();
+        builder.Entity<Brand>(b =>
+        {
+            b.ToTable(PharmacyAPIConsts.DbTablePrefix + "Brands", PharmacyAPIConsts.DbSchema);
+            b.ConfigureByConvention();
 
-});
+        });
 
-builder.Entity<ProductHealthTopic>(b =>
-{
-    b.ToTable(PharmacyAPIConsts.DbTablePrefix + "ProductHealthTopics", PharmacyAPIConsts.DbSchema);
-    b.HasKey(x => new { x.ProductId, x.Topic });
-});
+        builder.Entity<ProductHealthTopic>(b =>
+        {
+            b.ToTable(PharmacyAPIConsts.DbTablePrefix + "ProductHealthTopics", PharmacyAPIConsts.DbSchema);
+            b.HasKey(x => new { x.ProductId, x.Topic });
+        });
 
     }
 }

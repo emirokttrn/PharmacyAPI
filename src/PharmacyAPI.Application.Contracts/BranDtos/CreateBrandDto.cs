@@ -7,7 +7,7 @@ using Volo.Abp.Application.Dtos;
 
 namespace PharmacyAPI.BranDtos
 {
-    public class CreateBrandDto : FullAuditedEntityDto<Guid>
+    public class CreateBrandDto
     {
         [Required]
         [StringLength(128, MinimumLength = 2)]

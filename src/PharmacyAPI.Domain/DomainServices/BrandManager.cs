@@ -22,7 +22,7 @@ namespace PharmacyAPI.DomainServices
         }
 
 
-        public async Task<Brand> CreateAsync(string name)
+        public async Task<Brand> CreateAsync(string name)// domain service de rerturn type her zaman entity olmali ! unutma
         {
             var existingBrand = await _brandRepository
         .FirstOrDefaultAsync(b => b.BrandName == name);

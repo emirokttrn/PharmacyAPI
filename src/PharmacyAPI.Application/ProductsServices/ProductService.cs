@@ -15,7 +15,7 @@ using PharmacyAPI.IServices.Product;
 using PharmacyAPI.IRepositories;
 using PharmacyAPI.DomainServices;
 
-namespace PharmacyAPI.ProductsService
+namespace PharmacyAPI.ProductsServices
 {
     public class ProductService : ApplicationService, IProductAppService
     {

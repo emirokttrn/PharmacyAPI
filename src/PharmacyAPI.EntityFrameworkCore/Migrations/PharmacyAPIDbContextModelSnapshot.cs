@@ -2305,7 +2305,7 @@ namespace PharmacyAPI.Migrations
 
                             b1.HasKey("IdentityUserPasskeyCredentialId");
 
-                            b1.ToTable("AbpUserPasskeys");
+                            b1.ToTable("AbpUserPasskeys", (string)null);
 
                             b1
                                 .ToJson("Data")

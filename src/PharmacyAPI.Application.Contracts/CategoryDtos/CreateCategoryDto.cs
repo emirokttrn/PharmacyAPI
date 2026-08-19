@@ -7,11 +7,11 @@ using Volo.Abp.Application.Dtos;
 
 namespace PharmacyAPI.CategoryDtos
 {
-    public class CreateCategoryDto: FullAuditedEntityDto<Guid>
+    public class CreateCategoryDto
     {
         [Required]
-        [StringLength(128,MinimumLength =2)]
-        public string CategorName{get; set;}
-        public Guid? guid {get; set;}
+        [StringLength(128, MinimumLength = 2)]
+        public string CategorName { get; set; }
+        public Guid? guid { get; set; }
     }
 }

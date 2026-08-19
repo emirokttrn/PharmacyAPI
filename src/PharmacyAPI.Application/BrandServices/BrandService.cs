@@ -29,7 +29,8 @@ namespace PharmacyAPI.BrandServices
         }
         public async Task<BrandDto> CreateAsync(CreateBrandDto request)
         {
-            var newBrand = await _brandManager.CreateAsync(request.BrandName);
+            var newBrand = await _brandManager.CreateAsync(request.BrandName);// brand domain service'te kontrol yapiyor
+            //is mantiginin bi kismi orda
             await _repository.InsertAsync(newBrand);
             return ObjectMapper.Map<Brand, BrandDto>(newBrand);
         }

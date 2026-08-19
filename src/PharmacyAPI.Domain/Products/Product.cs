@@ -25,10 +25,10 @@ namespace PharmacyAPI.Products
 
 
         public Guid BrandId { get; set; }
-        public Brand? brand {get;set;
+        public Brand? Brand {get;set;
         }
         public Guid CategoryId { get; set; }
-        public Category? category {get;set;}
+        public Category? Category {get;set;}
 
         public string ActiveIngredient { get; set; }
         public string Description { get; set; }
