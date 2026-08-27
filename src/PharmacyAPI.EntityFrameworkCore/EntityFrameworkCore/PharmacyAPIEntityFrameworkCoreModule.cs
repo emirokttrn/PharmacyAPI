@@ -1,5 +1,7 @@
 ﻿using System;
 using Microsoft.Extensions.DependencyInjection;
+using PharmacyAPI.Categories;
+using PharmacyAPI.IRepositories;
 using Volo.Abp.Uow;
 using Volo.Abp.AuditLogging.EntityFrameworkCore;
 using Volo.Abp.BackgroundJobs.EntityFrameworkCore;
@@ -50,5 +52,11 @@ public class PharmacyAPIEntityFrameworkCoreModule : AbpModule
             options.UseSqlServer();
         });
 
+        // [Claude Agent] - ABP'nin conventional repository auto-registration'i (nedeni belirsiz,
+        // digerleri -Brand, Product, Order- ayni pattern'le calisiyor) ICategoryRepository'yi
+        // otomatik kaydetmiyordu; CategoryManger ve ProductManager constructor'larinda
+        // "Cannot resolve parameter ICategoryRepository" hatasiyla TUM category ve product
+        // endpoint'lerini kirip 500 donduruyordu. Elle (explicit) kayit ile bypass ediyoruz.
+        context.Services.AddTransient<ICategoryRepository, CategroyRepository>();
     }
 }

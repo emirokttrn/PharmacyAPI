@@ -3,6 +3,7 @@ using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using PharmacyAPI.EntityFrameworkCore;
 using Volo.Abp.EntityFrameworkCore;
@@ -12,9 +13,11 @@ using Volo.Abp.EntityFrameworkCore;
 namespace PharmacyAPI.Migrations
 {
     [DbContext(typeof(PharmacyAPIDbContext))]
-    partial class PharmacyAPIDbContextModelSnapshot : ModelSnapshot
+    [Migration("20260826234842_Added_Order_Prescription_Stock_KVKK_Address_Review")]
+    partial class Added_Order_Prescription_Stock_KVKK_Address_Review
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
