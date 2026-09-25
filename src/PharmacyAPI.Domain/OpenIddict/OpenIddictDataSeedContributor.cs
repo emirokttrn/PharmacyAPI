@@ -102,6 +102,28 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 clientUri: swaggerRootUrl
             );
         }
+
+        // [Claude Agent] - React Native mobil uygulama icin client. Onceden hicbir client
+        // Password (Resource Owner Password Credentials) grant'ini desteklemiyordu, bu yuzden
+        // /connect/token'a email+sifre ile istek atan bir login ekrani calisamiyordu.
+        // Public client (mobil app secret'i guvenli saklayamaz) + Password ve RefreshToken grantleri.
+        var appClientId = configurationSection["PharmacyAPI_App:ClientId"];
+        if (!appClientId.IsNullOrWhiteSpace())
+        {
+            await CreateApplicationAsync(
+                name: appClientId!,
+                type: OpenIddictConstants.ClientTypes.Public,
+                consentType: OpenIddictConstants.ConsentTypes.Implicit,
+                displayName: "PharmacyAPI Mobile App",
+                secret: null,
+                grantTypes: new List<string>
+                {
+                    OpenIddictConstants.GrantTypes.Password,
+                    OpenIddictConstants.GrantTypes.RefreshToken,
+                },
+                scopes: commonScopes
+            );
+        }
     }
 
     private async Task CreateApplicationAsync(

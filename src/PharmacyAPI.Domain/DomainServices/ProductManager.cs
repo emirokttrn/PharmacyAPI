@@ -17,12 +17,36 @@ namespace PharmacyAPI.DomainServices
         private readonly IProductRepository _productRepository;
         private readonly IBrandRepository _brandRepository;
         private readonly ICategoryRepository _categoryRepository;
-        private readonly IGuidGenerator guidGenerator;
-        public ProductManager(IProductRepository productRepository,IBrandRepository brandRepository, ICategoryRepository categoryRepository)
+        private readonly IReviewRepository _reviewRepository;
+        private readonly IGuidGenerator _guidGenerator;
+        public ProductManager(IProductRepository productRepository,IBrandRepository brandRepository, ICategoryRepository categoryRepository, IReviewRepository reviewRepository, IGuidGenerator guidGenerator)
         {
             _productRepository=productRepository;
             _brandRepository=brandRepository;
             _categoryRepository=categoryRepository;
+            _reviewRepository=reviewRepository;
+           _guidGenerator =guidGenerator;
+        }
+
+        // [Claude Agent] - Review olusturulunca/silininceReviewManager tarafindan cagrilir,
+        // Product.Rating (ortalama) ve ReviewCount alanlarini yeniden hesaplar
+        public async Task RecalculateRatingAsync(Guid productId)
+        {
+            var product = await _productRepository.GetAsync(productId);
+            var reviews = await _reviewRepository.GetListByProductAsync(productId);
+
+            if (reviews.Count == 0)
+            {
+                product.SetRating(0);
+                product.SetReviewCount(0);
+            }
+            else
+            {
+                product.SetRating(Math.Round(reviews.Average(r => r.Rating), 2));
+                product.SetReviewCount(reviews.Count);
+            }
+
+            await _productRepository.UpdateAsync(product);
         }
 public async Task<Product> CreateAsync(string productName, Guid brandId, Guid categoryId, decimal price)
         {
@@ -31,7 +55,7 @@ public async Task<Product> CreateAsync(string productName, Guid brandId, Guid ca
           var existingCategory= await _categoryRepository.FirstOrDefaultAsync(c=>c.Id==categoryId);
           if(existingCategory==null){throw new UserFriendlyException("dogru kategoriyi sectiginizden emin olun!");}
           return new Product(
-            guidGenerator.Create(),
+            _guidGenerator.Create(),
             productName,
             brandId,
             categoryId,

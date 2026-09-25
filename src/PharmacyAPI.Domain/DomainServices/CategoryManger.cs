@@ -34,5 +34,18 @@ namespace PharmacyAPI.DomainServices
             }
             return new Category(_guidGenerator.Create(), categoryName, parentId);
         }
+        public async Task<Category> UpdateAsync(Guid id, string name)
+        {
+            var category = await _categoryRepository.GetAsync(id);
+         var changeCategory= await _categoryRepository.AnyAsync(cn=>cn.CategoryName==name&&cn.Id!=id);
+         if(changeCategory)
+            {
+                throw new UserFriendlyException("yok");
+            }
+
+            category.SetCategoryName(name);
+            return category;
+        }
+
     }
 }

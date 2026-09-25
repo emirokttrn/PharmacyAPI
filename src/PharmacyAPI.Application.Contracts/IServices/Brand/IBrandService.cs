@@ -15,5 +15,8 @@ namespace PharmacyAPI.IServices.Brand
         Task<BrandDto> CreateAsync(CreateBrandDto request);
         Task<BrandDto> UpdateAsync(Guid id, CreateBrandDto request);
         Task DeleteAsync(Guid id);
+
+        Task DeleteByName(string name);
+        
     }
 }

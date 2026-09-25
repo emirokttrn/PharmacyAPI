@@ -42,8 +42,10 @@ namespace PharmacyAPI.ProductDtos
         public string Weight { get; set; }
 
         public List<string> HealthTopics { get; set; } = new List<string>();
+        public int StockQuantity { get; set; }
         public bool InStock { get; set; }
-        
+        public bool RequiresPrescription { get; set; }
+
 
     }
 }

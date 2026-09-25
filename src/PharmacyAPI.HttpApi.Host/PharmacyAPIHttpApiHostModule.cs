@@ -13,6 +13,8 @@ using PharmacyAPI.MultiTenancy;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite;
 using Volo.Abp.AspNetCore.Mvc.UI.Theme.LeptonXLite.Bundling;
 using Microsoft.OpenApi;
+using OpenIddict.Server;
+using OpenIddict.Server.AspNetCore;
 using OpenIddict.Validation.AspNetCore;
 using Volo.Abp;
 using Volo.Abp.Account;
@@ -56,12 +58,37 @@ public class PharmacyAPIHttpApiHostModule : AbpModule
                 options.UseAspNetCore();
             });
         });
+
+        // [Claude Agent] - Mobil (React Native) client, self-signed HTTPS sertifika sorunu
+        // yasamamak icin dev ortaminda http://localhost:44341 kullaniyor. OpenIddict'in token
+        // endpoint'i varsayilan olarak sadece HTTPS kabul ediyor ("This server only accepts
+        // HTTPS requests"), bu yuzden /connect/token'a http uzerinden istek atilamiyordu.
+        // Sadece Development ortaminda bu zorunlulugu kaldiriyoruz.
+        var hostingEnvironment = context.Services.GetHostingEnvironment();
+        if (hostingEnvironment.IsDevelopment())
+        {
+            PreConfigure<OpenIddictServerBuilder>(builder =>
+            {
+                builder.UseAspNetCore().DisableTransportSecurityRequirement();
+            });
+        }
     }
 
     public override void ConfigureServices(ServiceConfigurationContext context)
     {
         var configuration = context.Services.GetConfiguration();
         var hostingEnvironment = context.Services.GetHostingEnvironment();
+
+        // [Claude Agent] - [ApiController] eklenince (bkz. PharmacyAPIController) ASP.NET Core
+        // varsayilan olarak nullable-olmayan (string, [Required] YOK) DTO alanlarini da otomatik
+        // "zorunlu" sayip 400 donduruyor. CreateProductDto'daki Country/Image/Weight/vs. gibi
+        // gercekte opsiyonel alanlar (sadece [StringLength] var, [Required] yok, ama `string?`
+        // degil `string` olarak yazilmislar) bu yuzden "The X field is required" hatasi veriyordu.
+        // Bu implicit-required davranisini kapatiyoruz; sadece acikca [Required] olan alanlar zorunlu kalir.
+        context.Services.Configure<Microsoft.AspNetCore.Mvc.MvcOptions>(options =>
+        {
+            options.SuppressImplicitRequiredAttributeForNonNullableReferenceTypes = true;
+        });
 
         ConfigureAuthentication(context);
         ConfigureBundles();
@@ -131,12 +158,14 @@ public class PharmacyAPIHttpApiHostModule : AbpModule
         }
     }
 
+    // [Claude Agent] - Her ApplicationService icin artik elle yazilmis bir Controller var
+    // (PharmacyAPI.HttpApi/Controllers/*), bu yuzden ABP'nin otomatik conventional controller
+    // uretimiayni route'lari ikinci kez kayit ediyor ve her istekte AmbiguousMatchException
+    // atiyordu (orn. GET /api/app/brand hem BrandController hem otomatik proxy'ye eslesiyordu).
+    // Elle yazilmis controller'lar zaten tum servisleri kapsadigi icin conventional controller
+    // uretimini tamamen kapattim.
     private void ConfigureConventionalControllers()
     {
-        Configure<AbpAspNetCoreMvcOptions>(options =>
-        {
-            options.ConventionalControllers.Create(typeof(PharmacyAPIApplicationModule).Assembly);
-        });
     }
 
     private static void ConfigureSwaggerServices(ServiceConfigurationContext context, IConfiguration configuration)

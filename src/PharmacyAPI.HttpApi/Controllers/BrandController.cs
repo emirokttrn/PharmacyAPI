@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Mvc;
 using PharmacyAPI.BranDtos;
 using PharmacyAPI.IServices.Brand;
+using Volo.Abp.Application.Dtos;
 using RouteAttribute = Microsoft.AspNetCore.Mvc.RouteAttribute;
 
 namespace PharmacyAPI.Controllers
@@ -42,15 +43,26 @@ namespace PharmacyAPI.Controllers
         }
         
         [HttpDelete("{id}")]
-        public async Task DeleteAsync(Guid id)
+        public async Task<IActionResult> DeleteAsync(Guid id)
         {
          _brandService.DeleteAsync(id);
+         return NoContent();
         }
         [HttpPut("{id}")]
         public async Task<IActionResult> UpdateAsync(Guid id, CreateBrandDto request)
         {
             var result = _brandService.UpdateAsync(id,request);
             return Ok(result);
+        }
+
+        // [Claude Agent] - Eksik [HttpDelete] attribute'u Swashbuckle'in "Ambiguous HTTP method"
+        // hatasiyla TUM swagger.json uretimini kirip /swagger/v1/swagger.json'u 500 dondurmesine
+        // sebep oluyordu; ayrica "{id}" ile ayni pattern'e denk gelmesin diye ayri bir alt route verdim.
+        [HttpDelete("by-name/{name}")]
+        public async Task<IActionResult> DeleteByName(string name)
+        {
+           await _brandService.DeleteByName(name);
+           return NoContent();
         }
     }
 }

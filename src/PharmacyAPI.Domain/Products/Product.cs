@@ -44,7 +44,13 @@ namespace PharmacyAPI.Products
 
 
         public ICollection<ProductHealthTopic> healthTopics { get; set; } = new List<ProductHealthTopic>();
-        public bool InStock { get; set; }
+
+        // [Claude Agent] - Gercek stok yonetimi: InStock artik StockQuantity'den turetilen salt-okunur bir deger
+        public int StockQuantity { get; set; }
+        public bool InStock => StockQuantity > 0;
+
+        // [Claude Agent] - Recete gerektiren urun ayrimi (Order olusturulurken OrderManager kontrol eder)
+        public bool RequiresPrescription { get; set; }
 
         protected Product() { }
 
@@ -60,7 +66,11 @@ namespace PharmacyAPI.Products
 
         public void SetName(string Name)
         {
-            Check.NotNullOrWhiteSpace(Name, nameof(ProductName), ProductNameMinLength, ProductNameMaxLength);
+            // [Claude Agent] - Check.NotNullOrWhiteSpace imzasi (value, parameterName, maxLength,
+            // minLength) - min/max ters sirada verilmisti (maxLength=2 oluyordu), bu yuzden 2
+            // karakterden uzun HER urun adi "ProductName length must be equal to or lower than 2!"
+            // hatasiyla reddediliyordu (yani pratikte urun olusturma tamamen kirikti).
+            Check.NotNullOrWhiteSpace(Name, nameof(ProductName), ProductNameMaxLength, ProductNameMinLength);
             ProductName = Name;
         }
         public void SetPrice(decimal price)
@@ -112,14 +122,18 @@ namespace PharmacyAPI.Products
             SoldLast30Days = soldLast30Days;
         }
 
+        // [Claude Agent] - Country ve Image, CreateProductDto'da opsiyonel ([Required] yok) ama
+        // burada NotNullOrWhiteSpace kullanildigi icin null/bos gelince "can not be null, empty
+        // or white space!" firlatip TUM urun olusturmayi kiriyordu (diger opsiyonel alanlarin
+        // hepsi -ActiveIngredient, Description, vs.- dogru sekilde Check.Length kullaniyor).
         public void SetCountry(string country)
         {
-            Country = Check.NotNullOrWhiteSpace(country, nameof(Country), 64);
+            Country = Check.Length(country, nameof(Country), 64);
         }
 
         public void SetImage(string image)
         {
-            Image = Check.NotNullOrWhiteSpace(image, nameof(Image), 512);
+            Image = Check.Length(image, nameof(Image), 512);
         }
 
         public void SetActiveIngredient(string activeIngredient)
@@ -177,9 +191,54 @@ namespace PharmacyAPI.Products
             IsNew = isNew;
         }
 
+        // [Claude Agent] - InStock artik computed oldugu icin bool toggle, StockQuantity uzerinden simule edilir
+        // (mevcut SetStockStatusAsync/ChangeManyStockStatus endpoint'leri bozulmasin diye korunuyor)
         public void SetStock(bool inStock)
         {
-            InStock = inStock;
+            if (!inStock)
+            {
+                StockQuantity = 0;
+            }
+            else if (StockQuantity == 0)
+            {
+                StockQuantity = 1;
+            }
+        }
+
+        public void SetStockQuantity(int stockQuantity)
+        {
+            if (stockQuantity < 0)
+            {
+                throw new UserFriendlyException("stok miktari negatif olamaz!");
+            }
+            StockQuantity = stockQuantity;
+        }
+
+        public void DecreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new UserFriendlyException("dusulecek miktar 0'dan buyuk olmali!");
+            }
+            if (StockQuantity < quantity)
+            {
+                throw new UserFriendlyException($"{ProductName} icin yeterli stok yok!");
+            }
+            StockQuantity -= quantity;
+        }
+
+        public void IncreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new UserFriendlyException("eklenecek miktar 0'dan buyuk olmali!");
+            }
+            StockQuantity += quantity;
+        }
+
+        public void SetRequiresPrescription(bool requiresPrescription)
+        {
+            RequiresPrescription = requiresPrescription;
         }
 
 

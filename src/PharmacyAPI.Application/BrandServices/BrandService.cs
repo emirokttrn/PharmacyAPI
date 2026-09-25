@@ -45,6 +45,11 @@ namespace PharmacyAPI.BrandServices
             await _repository.DeleteAsync(id);
         }
 
+        public async Task DeleteByName(string name)
+        {
+            await _brandManager.DeleteAsync(name);
+        }
+
         public async Task<BrandDto> GetAsync(Guid id)
         {
             var brand = await _repository.GetAsync(id);

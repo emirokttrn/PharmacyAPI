@@ -17,7 +17,7 @@ using PharmacyAPI.DomainServices;
 
 namespace PharmacyAPI.ProductsServices
 {
-    public class ProductService : ApplicationService, IProductAppService
+    public class ProductService : ApplicationService, IProductService
     {
 
         private readonly IProductRepository _repository;
@@ -50,7 +50,8 @@ namespace PharmacyAPI.ProductsServices
             newProduct.SetAgeRange(request.AgeRange);
             newProduct.SetProductForm(request.ProductForm);
             newProduct.SetWeight(request.Weight);
-            newProduct.SetStock(request.InStock);
+            newProduct.SetStockQuantity(request.StockQuantity);
+            newProduct.SetRequiresPrescription(request.RequiresPrescription);
             foreach (var topic in request.HealthToPICS)
             {
                 newProduct.healthTopics.Add(new ProductHealthTopic(newProduct.Id, topic));
@@ -187,7 +188,8 @@ namespace PharmacyAPI.ProductsServices
     product.SetAgeRange(request.AgeRange);
     product.SetProductForm(request.ProductForm);
     product.SetWeight(request.Weight);
-    product.SetStock(request.InStock);
+    product.SetStockQuantity(request.StockQuantity);
+    product.SetRequiresPrescription(request.RequiresPrescription);
 
     product.healthTopics.Clear();
     foreach (var topic in request.HealthToPICS)

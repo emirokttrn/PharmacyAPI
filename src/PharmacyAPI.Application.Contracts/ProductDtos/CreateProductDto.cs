@@ -56,8 +56,12 @@ namespace PharmacyAPI.ProductDtos
 
         public List<string> HealthToPICS { get; set; } = new List<string>();
 
-        [Required]
-        public bool InStock { get; set; }
+        // [Claude Agent] - Gercek stok yonetimi: InStock artik StockQuantity'den turetiliyor
+        [Range(0, int.MaxValue, ErrorMessage = "stok miktari negatif olamaz")]
+        public int StockQuantity { get; set; }
+
+        // [Claude Agent] - Recete gerektiren urun ayrimi
+        public bool RequiresPrescription { get; set; }
 
 
 

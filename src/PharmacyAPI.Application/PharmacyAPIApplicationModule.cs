@@ -7,6 +7,8 @@ using Volo.Abp.PermissionManagement;
 using Volo.Abp.SettingManagement;
 using Volo.Abp.TenantManagement;
 using Microsoft.Extensions.DependencyInjection;
+using PharmacyAPI.CategroyServices;
+using PharmacyAPI.IServices.Category;
 
 namespace PharmacyAPI;
 
@@ -28,5 +30,12 @@ public class PharmacyAPIApplicationModule : AbpModule
         {
             options.AddMaps<PharmacyAPIApplicationModule>();
         });
+
+        // [Claude Agent] - ABP'nin conventional ApplicationService auto-registration'i (nedeni
+        // belirsiz) IcategoryService'i otomatik kaydetmiyordu; CategroyController'in constructor'i
+        // "Cannot resolve parameter IcategoryService service" hatasiyla TUM category endpoint'lerini
+        // kirip 500 donduruyordu (bkz. ICategoryRepository icin PharmacyAPIEntityFrameworkCoreModule'daki
+        // ayni sebepli fix). Elle (explicit) kayit ile bypass ediyoruz.
+        context.Services.AddTransient<IcategoryService, CategroyService>();
     }
 }
