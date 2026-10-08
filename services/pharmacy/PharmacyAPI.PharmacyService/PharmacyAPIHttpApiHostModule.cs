@@ -144,16 +144,14 @@ public class PharmacyAPIHttpApiHostModule : AbpModule
             {
                 options.FileSets.ReplaceEmbeddedByPhysical<PharmacyAPIDomainSharedModule>(
                     Path.Combine(hostingEnvironment.ContentRootPath,
-                        "..", "..", "services", "pharmacy", "PharmacyAPI.PharmacyService.Contracts"));
+                        $"..{Path.DirectorySeparatorChar}PharmacyAPI.PharmacyService.Contracts"));
                 options.FileSets.ReplaceEmbeddedByPhysical<PharmacyAPIDomainModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}PharmacyAPI.Domain"));
+                    hostingEnvironment.ContentRootPath);
                 options.FileSets.ReplaceEmbeddedByPhysical<PharmacyAPIApplicationContractsModule>(
                     Path.Combine(hostingEnvironment.ContentRootPath,
-                        "..", "..", "services", "pharmacy", "PharmacyAPI.PharmacyService.Contracts"));
+                        $"..{Path.DirectorySeparatorChar}PharmacyAPI.PharmacyService.Contracts"));
                 options.FileSets.ReplaceEmbeddedByPhysical<PharmacyAPIApplicationModule>(
-                    Path.Combine(hostingEnvironment.ContentRootPath,
-                        $"..{Path.DirectorySeparatorChar}PharmacyAPI.Application"));
+                    hostingEnvironment.ContentRootPath);
             });
         }
     }

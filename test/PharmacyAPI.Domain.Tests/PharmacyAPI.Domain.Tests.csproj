@@ -13,7 +13,7 @@
   </ItemGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PharmacyAPI.Domain\PharmacyAPI.Domain.csproj" />
+    <ProjectReference Include="..\..\services\pharmacy\PharmacyAPI.PharmacyService\PharmacyAPI.PharmacyService.csproj" />
     <ProjectReference Include="..\PharmacyAPI.TestBase\PharmacyAPI.TestBase.csproj" />
   </ItemGroup>
 

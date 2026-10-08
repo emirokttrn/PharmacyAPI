@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PharmacyAPI.DbMigrator/PharmacyAPI.DbMigrator.csproj" />
+  <Project Path="PharmacyAPI.PharmacyService.Contracts/PharmacyAPI.PharmacyService.Contracts.csproj" />
+  <Project Path="PharmacyAPI.PharmacyService/PharmacyAPI.PharmacyService.csproj" />
+</Solution>

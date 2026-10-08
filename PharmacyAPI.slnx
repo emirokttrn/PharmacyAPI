@@ -1,16 +1,12 @@
 <Solution>
   <Folder Name="/services/" />
   <Folder Name="/services/pharmacy/">
+    <Project Path="services/pharmacy/PharmacyAPI.DbMigrator/PharmacyAPI.DbMigrator.csproj" />
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService.Contracts/PharmacyAPI.PharmacyService.Contracts.csproj" />
+    <Project Path="services/pharmacy/PharmacyAPI.PharmacyService/PharmacyAPI.PharmacyService.csproj" />
   </Folder>
   <Folder Name="/src/">
-    <Project Path="src/PharmacyAPI.Application/PharmacyAPI.Application.csproj" />
-    <Project Path="src/PharmacyAPI.DbMigrator/PharmacyAPI.DbMigrator.csproj" />
-    <Project Path="src/PharmacyAPI.Domain/PharmacyAPI.Domain.csproj" />
-    <Project Path="src/PharmacyAPI.EntityFrameworkCore/PharmacyAPI.EntityFrameworkCore.csproj" />
     <Project Path="src/PharmacyAPI.HttpApi.Client/PharmacyAPI.HttpApi.Client.csproj" />
-    <Project Path="src/PharmacyAPI.HttpApi.Host/PharmacyAPI.HttpApi.Host.csproj" />
-    <Project Path="src/PharmacyAPI.HttpApi/PharmacyAPI.HttpApi.csproj" />
   </Folder>
   <Folder Name="/test/">
     <Project Path="test/PharmacyAPI.Application.Tests/PharmacyAPI.Application.Tests.csproj" />

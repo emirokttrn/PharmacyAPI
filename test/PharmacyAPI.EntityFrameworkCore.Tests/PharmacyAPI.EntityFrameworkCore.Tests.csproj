@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PharmacyAPI.EntityFrameworkCore\PharmacyAPI.EntityFrameworkCore.csproj" />
+    <ProjectReference Include="..\..\services\pharmacy\PharmacyAPI.PharmacyService\PharmacyAPI.PharmacyService.csproj" />
     <ProjectReference Include="..\PharmacyAPI.Application.Tests\PharmacyAPI.Application.Tests.csproj" />
     <PackageReference Include="Volo.Abp.EntityFrameworkCore.Sqlite" Version="10.6.0" />
   </ItemGroup>

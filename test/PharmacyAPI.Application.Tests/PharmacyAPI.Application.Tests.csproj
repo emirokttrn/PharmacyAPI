@@ -9,7 +9,7 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <ProjectReference Include="..\..\src\PharmacyAPI.Application\PharmacyAPI.Application.csproj" />
+    <ProjectReference Include="..\..\services\pharmacy\PharmacyAPI.PharmacyService\PharmacyAPI.PharmacyService.csproj" />
     <ProjectReference Include="..\PharmacyAPI.Domain.Tests\PharmacyAPI.Domain.Tests.csproj" />
   </ItemGroup>
 
