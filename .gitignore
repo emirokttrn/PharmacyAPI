@@ -263,3 +263,7 @@ src/PharmacyAPI.Blazor.Server.Tiered/Logs/*
 
 # Use abp install-libs to restore.
 **/wwwroot/libs/*
+
+# Servis log klasorleri (services/<servis>/<proje>/Logs)
+**/Logs/
+.DS_Store
