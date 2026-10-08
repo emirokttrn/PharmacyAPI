@@ -266,3 +266,4 @@ src/PharmacyAPI.Blazor.Server.Tiered/Logs/*
 
 # Servis log klasorleri (services/<servis>/<proje>/Logs)
 **/Logs/
+.DS_Store
