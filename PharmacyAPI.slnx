@@ -6,10 +6,4 @@
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService/PharmacyAPI.PharmacyService.csproj" />
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService.Tests/PharmacyAPI.PharmacyService.Tests.csproj" />
   </Folder>
-  <Folder Name="/src/">
-    <Project Path="src/PharmacyAPI.HttpApi.Client/PharmacyAPI.HttpApi.Client.csproj" />
-  </Folder>
-  <Folder Name="/test/">
-    <Project Path="test/PharmacyAPI.HttpApi.Client.ConsoleTestApp/PharmacyAPI.HttpApi.Client.ConsoleTestApp.csproj" />
-  </Folder>
 </Solution>
