@@ -1,0 +1,251 @@
+using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Threading.Tasks;
+using PharmacyAPI.Brands;
+using PharmacyAPI.Categories;
+using PharmacyAPI.HealtTopics;
+using Volo.Abp;
+using Volo.Abp.Domain.Entities.Auditing;
+
+namespace PharmacyAPI.Products
+{
+    public class Product : FullAuditedAggregateRoot<Guid>
+    {
+        public string ProductName { get; set; }
+        public const int ProductNameMaxLength = 128;
+        public const int ProductNameMinLength = 2;
+        public string Country { get; set; }
+        public string Image { get; set; }
+        public decimal Price { get; set; }
+        public decimal? DiscountedPrice { get; set; }
+        public double Rating { get; set; }
+        public int ReviewCount { get; set; }
+        public int SoldLast30Days { get; set; }
+
+
+        public Guid BrandId { get; set; }
+        public Brand? Brand {get;set;
+        }
+        public Guid CategoryId { get; set; }
+        public Category? Category {get;set;}
+
+        public string ActiveIngredient { get; set; }
+        public string Description { get; set; }
+
+        public ProductBadge? Badge { get; set; }
+        public string BadgeLabel { get; set; }
+        public bool IsNew { get; set; }
+
+        public ProductGender? Gender { get; set; }
+        public string AgeRange { get; set; }
+        public string ProductForm { get; set; }
+        public string Weight { get; set; }
+
+
+        public ICollection<ProductHealthTopic> healthTopics { get; set; } = new List<ProductHealthTopic>();
+
+        // [Claude Agent] - Gercek stok yonetimi: InStock artik StockQuantity'den turetilen salt-okunur bir deger
+        public int StockQuantity { get; set; }
+        public bool InStock => StockQuantity > 0;
+
+        // [Claude Agent] - Recete gerektiren urun ayrimi (Order olusturulurken OrderManager kontrol eder)
+        public bool RequiresPrescription { get; set; }
+
+        protected Product() { }
+
+        public Product(Guid id, string name, Guid brandId, Guid categoryId, decimal price) : base(id)
+        {
+            SetName(name);
+            BrandId = brandId;
+            CategoryId = categoryId;
+            SetPrice(price);
+        }
+
+
+
+        public void SetName(string Name)
+        {
+            // [Claude Agent] - Check.NotNullOrWhiteSpace imzasi (value, parameterName, maxLength,
+            // minLength) - min/max ters sirada verilmisti (maxLength=2 oluyordu), bu yuzden 2
+            // karakterden uzun HER urun adi "ProductName length must be equal to or lower than 2!"
+            // hatasiyla reddediliyordu (yani pratikte urun olusturma tamamen kirikti).
+            Check.NotNullOrWhiteSpace(Name, nameof(ProductName), ProductNameMaxLength, ProductNameMinLength);
+            ProductName = Name;
+        }
+        public void SetPrice(decimal price)
+        {
+            if (price < 0)
+            {
+                throw new UserFriendlyException("fiyat sifirdan kucuk olamaz dikkat et! ");
+            }
+            Price = price;
+        }
+        public void SetDiscountedPrice(decimal? discountedPrice)
+        {
+            //idirimli fiyatin bi degeri varsa ve o deger sifirdan kucukse exception atiyor
+            if (discountedPrice.HasValue && discountedPrice.Value < 0)
+            {
+                throw new UserFriendlyException("idirimli fiyat sifirdan kucuk olamaz");
+            }
+            //eger idirimli fiyat normal degferden fazla ise exception atar
+            if (discountedPrice.HasValue && discountedPrice.Value > Price)
+            {
+                throw new UserFriendlyException("indirimli fiyat normal fiayattan fazla olmaz");
+            }
+            DiscountedPrice = discountedPrice;
+        }
+        public void SetRating(double rating)
+        {
+            if (rating < 0 || rating > 5)
+            {
+                throw new UserFriendlyException("rating 0 ile 5 arasinda olmali!");
+            }
+            Rating = rating;
+        }
+
+        public void SetReviewCount(int reviewCount)
+        {
+            if (reviewCount < 0)
+            {
+                throw new UserFriendlyException("review count negatif olamaz!");
+            }
+            ReviewCount = reviewCount;
+        }
+
+        public void SetSoldLast30Days(int soldLast30Days)
+        {
+            if (soldLast30Days < 0)
+            {
+                throw new UserFriendlyException("satis adedi negatif olamaz!");
+            }
+            SoldLast30Days = soldLast30Days;
+        }
+
+        // [Claude Agent] - Country ve Image, CreateProductDto'da opsiyonel ([Required] yok) ama
+        // burada NotNullOrWhiteSpace kullanildigi icin null/bos gelince "can not be null, empty
+        // or white space!" firlatip TUM urun olusturmayi kiriyordu (diger opsiyonel alanlarin
+        // hepsi -ActiveIngredient, Description, vs.- dogru sekilde Check.Length kullaniyor).
+        public void SetCountry(string country)
+        {
+            Country = Check.Length(country, nameof(Country), 64);
+        }
+
+        public void SetImage(string image)
+        {
+            Image = Check.Length(image, nameof(Image), 512);
+        }
+
+        public void SetActiveIngredient(string activeIngredient)
+        {
+            ActiveIngredient = Check.Length(activeIngredient, nameof(ActiveIngredient), 256);
+        }
+
+        public void SetDescription(string description)
+        {
+            Description = Check.Length(description, nameof(Description), 2000);
+        }
+
+        public void SetBadgeLabel(string badgeLabel)
+        {
+            BadgeLabel = Check.Length(badgeLabel, nameof(BadgeLabel), 64);
+        }
+
+        public void SetAgeRange(string ageRange)
+        {
+            AgeRange = Check.Length(ageRange, nameof(AgeRange), 64);
+        }
+
+        public void SetProductForm(string productForm)
+        {
+            ProductForm = Check.Length(productForm, nameof(ProductForm), 64);
+        }
+
+        public void SetWeight(string weight)
+        {
+            Weight = Check.Length(weight, nameof(Weight), 32);
+        }
+
+        public void SetBrand(Guid brandId)
+        {
+            BrandId = brandId;
+        }
+
+        public void SetCategory(Guid categoryId)
+        {
+            CategoryId = categoryId;
+        }
+
+        public void SetBadge(ProductBadge? badge)
+        {
+            Badge = badge;
+        }
+
+        public void SetGender(ProductGender? gender)
+        {
+            Gender = gender;
+        }
+
+        public void MarkAsNew(bool isNew = true)
+        {
+            IsNew = isNew;
+        }
+
+        // [Claude Agent] - InStock artik computed oldugu icin bool toggle, StockQuantity uzerinden simule edilir
+        // (mevcut SetStockStatusAsync/ChangeManyStockStatus endpoint'leri bozulmasin diye korunuyor)
+        public void SetStock(bool inStock)
+        {
+            if (!inStock)
+            {
+                StockQuantity = 0;
+            }
+            else if (StockQuantity == 0)
+            {
+                StockQuantity = 1;
+            }
+        }
+
+        public void SetStockQuantity(int stockQuantity)
+        {
+            if (stockQuantity < 0)
+            {
+                throw new UserFriendlyException("stok miktari negatif olamaz!");
+            }
+            StockQuantity = stockQuantity;
+        }
+
+        public void DecreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new UserFriendlyException("dusulecek miktar 0'dan buyuk olmali!");
+            }
+            if (StockQuantity < quantity)
+            {
+                throw new UserFriendlyException($"{ProductName} icin yeterli stok yok!");
+            }
+            StockQuantity -= quantity;
+        }
+
+        public void IncreaseStock(int quantity)
+        {
+            if (quantity <= 0)
+            {
+                throw new UserFriendlyException("eklenecek miktar 0'dan buyuk olmali!");
+            }
+            StockQuantity += quantity;
+        }
+
+        public void SetRequiresPrescription(bool requiresPrescription)
+        {
+            RequiresPrescription = requiresPrescription;
+        }
+
+
+
+    }
+
+
+
+
+}
