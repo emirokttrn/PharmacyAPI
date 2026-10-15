@@ -11,4 +11,9 @@
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService/PharmacyAPI.PharmacyService.csproj" />
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService.Tests/PharmacyAPI.PharmacyService.Tests.csproj" />
   </Folder>
+  <Folder Name="/services/store/">
+    <Project Path="services/store/PharmacyAPI.StoreService.Contracts/PharmacyAPI.StoreService.Contracts.csproj" />
+    <Project Path="services/store/PharmacyAPI.StoreService.Tests/PharmacyAPI.StoreService.Tests.csproj" />
+    <Project Path="services/store/PharmacyAPI.StoreService/PharmacyAPI.StoreService.csproj" />
+  </Folder>
 </Solution>
