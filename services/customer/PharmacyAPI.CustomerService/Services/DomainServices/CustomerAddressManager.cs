@@ -2,7 +2,7 @@ using System;
 using System.Linq;
 using System.Threading.Tasks;
 using PharmacyAPI.CustomerService.Data.IRepositories;
-using PharmacyAPI.CustomerService.Entities.CustomersAddresses;
+using PharmacyAPI.CustomerService.Entities.CustomerAddresses;
 using Volo.Abp;
 using Volo.Abp.Domain.Services;
 

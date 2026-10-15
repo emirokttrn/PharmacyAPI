@@ -1,6 +1,6 @@
 using PharmacyAPI;
 using PharmacyAPI.CustomerService.Contracts.Dtos.CustomerAddresses;
-using PharmacyAPI.CustomerService.Entities.CustomersAddresses;
+using PharmacyAPI.CustomerService.Entities.CustomerAddresses;
 using PharmacyAPI.CustomerService.Services.DomainServices;
 using Volo.Abp;
 using Volo.Abp.Application.Services;

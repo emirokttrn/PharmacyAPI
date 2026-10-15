@@ -1,5 +1,5 @@
 using PharmacyAPI.CustomerService.Contracts.Dtos.CustomerAddresses;
-using PharmacyAPI.CustomerService.Entities.CustomersAddresses;
+using PharmacyAPI.CustomerService.Entities.CustomerAddresses;
 using Riok.Mapperly.Abstractions;
 using Volo.Abp.Mapperly;
 

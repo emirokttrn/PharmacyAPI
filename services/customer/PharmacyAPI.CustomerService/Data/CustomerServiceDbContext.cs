@@ -1,5 +1,5 @@
 using Microsoft.EntityFrameworkCore;
-using PharmacyAPI.CustomerService.Entities.CustomersAddresses;
+using PharmacyAPI.CustomerService.Entities.CustomerAddresses;
 using PharmacyAPI.CustomerService.Entities.Customers;
 using Volo.Abp.Data;
 using Volo.Abp.EntityFrameworkCore;
