@@ -1,0 +1,5 @@
+<Solution>
+  <Project Path="PharmacyAPI.StoreService.Contracts/PharmacyAPI.StoreService.Contracts.csproj" />
+  <Project Path="PharmacyAPI.StoreService.Tests/PharmacyAPI.StoreService.Tests.csproj" />
+  <Project Path="PharmacyAPI.StoreService/PharmacyAPI.StoreService.csproj" />
+</Solution>

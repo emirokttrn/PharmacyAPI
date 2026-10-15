@@ -71,6 +71,13 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
                 Name = "CustomerService", DisplayName = "Customer Service API", Resources = { "CustomerService" }
             });
         }
+
+        if (await _openIddictScopeRepository.FindByNameAsync("StoreService") == null)
+        {
+            await _scopeManager.CreateAsync(new OpenIddictScopeDescriptor {
+                Name = "StoreService", DisplayName = "Store Service API", Resources = { "StoreService" }
+            });
+        }
     }
 
     private async Task CreateApplicationsAsync()
@@ -82,7 +89,8 @@ public class OpenIddictDataSeedContributor : IDataSeedContributor, ITransientDep
             OpenIddictConstants.Permissions.Scopes.Profile,
             OpenIddictConstants.Permissions.Scopes.Roles,
             "PharmacyAPI",
-            "CustomerService"
+            "CustomerService",
+            "StoreService"
         };
 
         var configurationSection = _configuration.GetSection("OpenIddict:Applications");
