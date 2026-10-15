@@ -1,0 +1,36 @@
+﻿<Project Sdk="Microsoft.NET.Sdk.Web">
+
+  <Import Project="..\..\..\common.props" />
+
+  <PropertyGroup>
+    <TargetFramework>net10.0</TargetFramework>
+    <Nullable>enable</Nullable>
+    <ImplicitUsings>enable</ImplicitUsings>
+    <RootNamespace>PharmacyAPI.CustomerService</RootNamespace>
+    <UserSecretsId>220b2689-28bb-4894-afcb-c57f8f13ea82</UserSecretsId>
+  </PropertyGroup>
+
+  <ItemGroup>
+    <PackageReference Include="Volo.Abp.Autofac" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Mvc" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Serilog" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.AspNetCore.Authentication.JwtBearer" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Swashbuckle" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Domain" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Ddd.Application" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.Mapperly" Version="10.6.0" />
+    <PackageReference Include="Volo.Abp.EntityFrameworkCore.SqlServer" Version="10.6.0" />
+    <PackageReference Include="System.Linq.Dynamic.Core" Version="1.7.3" />
+    <PackageReference Include="Serilog.AspNetCore" Version="9.0.0" />
+    <PackageReference Include="Serilog.Sinks.Async" Version="2.1.0" />
+    <PackageReference Include="Microsoft.EntityFrameworkCore.Tools" Version="10.0.9">
+      <PrivateAssets>all</PrivateAssets>
+      <IncludeAssets>runtime; build; native; contentfiles; analyzers</IncludeAssets>
+    </PackageReference>
+  </ItemGroup>
+
+  <ItemGroup>
+    <ProjectReference Include="..\PharmacyAPI.CustomerService.Contracts\PharmacyAPI.CustomerService.Contracts.csproj" />
+  </ItemGroup>
+
+</Project>

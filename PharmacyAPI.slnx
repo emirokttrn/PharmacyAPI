@@ -1,5 +1,10 @@
 <Solution>
   <Folder Name="/services/" />
+  <Folder Name="/services/customer/">
+    <Project Path="services/customer/PharmacyAPI.CustomerService.Contracts/PharmacyAPI.CustomerService.Contracts.csproj" />
+    <Project Path="services/customer/PharmacyAPI.CustomerService.Tests/PharmacyAPI.CustomerService.Tests.csproj" />
+    <Project Path="services/customer/PharmacyAPI.CustomerService/PharmacyAPI.CustomerService.csproj" />
+  </Folder>
   <Folder Name="/services/pharmacy/">
     <Project Path="services/pharmacy/PharmacyAPI.DbMigrator/PharmacyAPI.DbMigrator.csproj" />
     <Project Path="services/pharmacy/PharmacyAPI.PharmacyService.Contracts/PharmacyAPI.PharmacyService.Contracts.csproj" />
