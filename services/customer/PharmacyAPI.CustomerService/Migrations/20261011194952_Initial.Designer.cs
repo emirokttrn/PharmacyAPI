@@ -159,7 +159,7 @@ namespace PharmacyAPI.CustomerService.Migrations
                     b.ToTable("Customers", (string)null);
                 });
 
-            modelBuilder.Entity("PharmacyAPI.CustomerService.Entities.CustomersAddresses.CustomerAddress", b =>
+            modelBuilder.Entity("PharmacyAPI.CustomerService.Entities.CustomerAddresses.CustomerAddress", b =>
                 {
                     b.Property<Guid>("Id")
                         .HasColumnType("uniqueidentifier");
@@ -253,7 +253,7 @@ namespace PharmacyAPI.CustomerService.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("PharmacyAPI.CustomerService.Entities.CustomersAddresses.CustomerAddress", b =>
+            modelBuilder.Entity("PharmacyAPI.CustomerService.Entities.CustomerAddresses.CustomerAddress", b =>
                 {
                     b.HasOne("PharmacyAPI.CustomerService.Entities.Customers.Customer", null)
                         .WithMany()
